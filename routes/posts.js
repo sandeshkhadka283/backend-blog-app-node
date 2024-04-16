@@ -4,7 +4,7 @@ const Post = require('../models/post'); // Adjust the path to your Post model as
 const router = express.Router();
 
 // Get All Posts
-router.get('/', async (req, res) => {
+router.get('/api/posts', async (req, res) => {
   try {
     const posts = await Post.find();
     res.json(posts);
@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 });
 
 // Create New Post
-router.post('/', async (req, res) => {
+router.post('/api/createpost', async (req, res) => {
   try {
     const newPost = new Post(req.body);
     const savedPost = await newPost.save();
