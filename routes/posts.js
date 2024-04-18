@@ -1,20 +1,20 @@
 const express = require('express');
-const Post = require('../models/post'); // Adjust the path to your Post model as necessary
-
+const Post = require('../models/post');
 const router = express.Router();
 
 // Get All Posts
+// Corrected version
 router.get('/api/posts', async (req, res) => {
   try {
     const posts = await Post.find();
-    res.json(posts);
+    res.status(200).json(posts);  // Correct usage
   } catch (err) {
-    res.status(500).send('An error occurred', err);
+    res.status(500).json({ message: 'An error occurred', error: err.message });  // Correct and meaningful error handling
   }
 });
 
 // Create New Post
-router.post('/api/createpost', async (req, res) => {
+router.post('/createpost', async (req, res) => {
   try {
     const newPost = new Post(req.body);
     const savedPost = await newPost.save();
@@ -25,7 +25,7 @@ router.post('/api/createpost', async (req, res) => {
 });
 
 // Get Specific Post
-router.get('/:id', async (req, res) => {
+router.get('/posts/:id', async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
     res.json(post);
@@ -35,7 +35,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Delete Post
-router.delete('/:id', async (req, res) => {
+router.delete('/posts/:id', async (req, res) => {
   try {
     const result = await Post.findByIdAndDelete(req.params.id);
     res.json(result);
@@ -45,7 +45,7 @@ router.delete('/:id', async (req, res) => {
 });
 
 // Update Post
-router.patch('/:id', async (req, res) => {
+router.patch('/posts/:id', async (req, res) => {
   try {
     const result = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(result);

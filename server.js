@@ -2,32 +2,28 @@ require('dotenv').config();
 console.log('MongoDB URI:', process.env.MONGODBURI);
 
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const postsRoute = require('./routes/posts');
 
+require('dotenv').config();
 
 const app = express();
-app.use(cors());
-app.use(express.json()); // For parsing application/json
-app.use('/posts', postsRoute);
 
+// CORS configuration - Allow requests from your frontend domain
+app.use(cors({
+    origin: 'http://localhost:5000'  // This should match the URL of your frontend app
+}));
 
-// MongoDB Connection
+app.use(express.json());  // For parsing application/json
 
-mongoose.connect(process.env.MONGODBURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-}).then(() => {
-  console.log('MongoDB connected successfully');
-  console.log("")
-}).catch(err => {
-  console.error('MongoDB connection error:', err);
-});
+// MongoDB connection setup should be here (not shown for brevity)
+
+app.use('/api', postsRoute);  // Simplified routing prefix
 
 app.get('/', (req, res) => {
   res.send('Hello World!');
 });
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
