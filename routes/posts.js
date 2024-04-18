@@ -4,7 +4,7 @@ const router = express.Router();
 
 // Get All Posts
 // Corrected version
-router.get('/api/posts', async (req, res) => {
+router.get('/posts', async (req, res) => {
   try {
     const posts = await Post.find();
     res.status(200).json(posts);  // Correct usage
