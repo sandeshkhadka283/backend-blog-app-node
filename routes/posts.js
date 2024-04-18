@@ -4,12 +4,13 @@ const router = express.Router();
 
 // Get All Posts
 // Corrected version
-router.get('/posts', async (req, res) => {
+router.get('/api/posts', async (req, res) => {
   try {
-    const posts = await Post.find();
-    res.status(200).json(posts);  // Correct usage
-  } catch (err) {
-    res.status(500).json({ message: 'An error occurred', error: err.message });  // Correct and meaningful error handling
+      const posts = await Post.find();
+      res.status(200).json(posts);
+  } catch (error) {
+      console.error("Error fetching posts:", error);
+      res.status(500).json({ message: "An error occurred", error: error.message });
   }
 });
 
